@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add{% endblock %}
+{% block content %}
+    <div class="min-vh-100">
+        <script src="{% static 'js/formManager.js' %}" type="text/javascript" defer></script>
+        <form style="margin-top: 32px;" id="object-form" method="post">
+            {% csrf_token %}
+            <h1 style="margin-left: 32px;font-size: 48px;">Object Creation</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_brand" class="form-label">Brand</label>{{ objects.brand }}
+                    </div>
+                    <div class="col-md-3"><label for="id_reference"
+                                                 class="form-label">Reference</label>{{ objects.reference }}</div>
+                    <div class="col-md-3"><label for="id_serial_number" class="form-label">Serial
+                        Number</label>{{ objects.serial_number }}</div>
+                    <div class="col-md-3">
+                        <div class="form-check"><label class="form-check-label" for="id_available">Available</label>
+                            {{ objects.available }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="container" style="margin-top: 32px;">
+            <form id="selector-form" method="post">
+                <select style="margin-top: 16px;" id="selector" name="selector">
+                    <option value="amovible">Amovible</option>
+                    <option value="cable">Cable</option>
+                    <option value="cpu">Cpu</option>
+                    <option value="ram">Ram</option>
+                    <option value="hdd">Hdd</option>
+                    <option value="ssd">Ssd</option>
+                </select>
+            </form>
+        </div>
+        <form style="margin-top: 32px;" id="amovible-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Amovible</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_capacity"
+                                                 class="form-label">Capacity</label> {{ amovible.capacity }}</div>
+                    <div class="col-md-3"><label for="id_tech" class="form-label">Tech</label> {{ amovible.tech }}</div>
+                </div>
+            </div>
+        </form>
+        <form style="margin-top: 32px;" id="cable-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Cable</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_length" class="form-label">Length</label>{{ cable.length }}
+                    </div>
+                    <div class="col-md-3"><label for="id_start_type" class="form-label">Start
+                        type</label>{{ cable.start_type }}</div>
+                    <div class="col-md-3"><label for="id_end_type" class="form-label">End
+                        type</label>{{ cable.end_type }}</div>
+                </div>
+            </div>
+        </form>
+        <form style="margin-top: 32px;" id="cpu-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Cpu</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_core" class="form-label">Core number</label>{{ cpu.core }}
+                    </div>
+                    <div class="col-md-3"><label for="id_threads" class="form-label">Thread
+                        number</label>{{ cpu.threads }}</div>
+                    <div class="col-md-3"><label for="id_frequency"
+                                                 class="form-label">Frequency</label>{{ cpu.frequency }}</div>
+                </div>
+            </div>
+        </form>
+        <form style="margin-top: 32px;" id="ram-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Ram</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_capacity" class="form-label">Capacity</label>{{ ram.capacity }}
+                    </div>
+                    <div class="col-md-3"><label for="id_type" class="form-label">Type</label>{{ ram.type }}</div>
+                    <div class="col-md-3"><label for="id_frequency"
+                                                 class="form-label">Frequency</label>{{ ram.frequency }}</div>
+                </div>
+            </div>
+        </form>
+        <form style="margin-top: 32px;" id="drive-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Drive</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_capacity"
+                                                 class="form-label">Capacity</label>{{ drive.capacity }}</div>
+                    <div class="col-md-3"><label for="id_read_value" class="form-label">Read
+                        speed</label>{{ drive.read_value }}</div>
+                    <div class="col-md-3"><label for="id_write_value" class="form-label">Write
+                        speed</label>{{ drive.write_value }}</div>
+                </div>
+            </div>
+        </form>
+        <form style="margin-top: 32px;" id="hdd-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Hdd</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_rotation_speed" class="form-label">Rotation
+                        speed</label>{{ hdd.rotation_speed }}</div>
+                    <div class="col-md-3"><label for="id_size" class="form-label">Format factor</label>{{ hdd.size }}
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form style="margin-top: 32px;" id="ssd-form" method="post">
+            <h1 style="margin-left: 32px;font-size: 48px;">Ssd</h1>
+            <div class="container" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-md-3"><label for="id_" class="form-label"></label></div>
+                    <div class="col-md-3"><label for="id_" class="form-label"></label></div>
+                    <div class="col-md-3"><label for="id_" class="form-label"></label></div>
+                    <div class="col-md-3"><label for="id_" class="form-label"></label></div>
+                </div>
+            </div>
+        </form>
+        <button style="margin-left: 32px; margin-top: 32px;" class="btn btn-primary" type="button"
+                onclick="submitForms()">Send data
+        </button>
+    </div>
+{% endblock %}
+

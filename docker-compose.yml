@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "${DATABASE_PORT}:3306"
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_USER: "${ROOT_USER}"
+      MYSQL_ROOT_PASSWORD: "${ROOT_PASS}"
+      MYSQL_DATABASE: "${DATABASE_NAME}"
+      MYSQL_USER: "${DATABASE_USER}"
+      MYSQL_PASSWORD: "${USER_PASS}"
+    healthcheck:
+      test: "/usr/bin/mysql --user=${DATABASE_USER} --password=${USER_PASS} --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 30s
+      retries: 15
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY
+      - DATABASE_HOST
+      - DATABASE_PORT
+      - DATABASE_NAME
+      - DATABASE_USER
+      - USER_PASS
+    depends_on:
+      db:
+        condition: service_healthy

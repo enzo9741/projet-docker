@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<link rel="manifest" href="{% static 'manifest.json' %}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Inventory Manager</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'css/Navbar-Right-Links-Dark.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shadow.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}"><span
+                class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg
+                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+                class="bi bi-box-seam">
+                        <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"></path>
+                    </svg></span><span>Inventory Manger V1</span></a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5"><span
+                    class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-5">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="https://home.enzo-laurence.tech">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Index</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'allqrcode' %}">All QR Code</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
+                    {% if request.user.is_authenticated == False %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin:login' %}?next={% url 'index' %}">Login</a></li>
+                    {% else%}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin:logout' %}?next={% url 'index' %}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<footer>
+    <div class="fixed-bottom" style="margin-bottom: 16px;">
+        <div class="btn-group float-xl-end" role="group">
+            <a href="{% url 'scan' %}">
+                <button class="btn btn-primary" type="button"
+                        style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                         viewBox="0 0 16 16"
+                         class="bi bi-qr-code-scan" style="width: 32px;height: 32px;">
+                        <path fill-rule="evenodd"
+                              d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5ZM3 3h3v3H3V3Zm0 7h3v3H3v-3Zm7-7h3v3h-3V3ZM7 2H2v5h5V2Zm0 7H2v5h5V9Zm2-7h5v5H9V2ZM4 4h1v1H4V4Zm7 0h1v1h-1V4Zm-6 7H4v1h1v-1Zm3.5-3H8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8H8.5Zm1.5 2V9H9v1h1Zm4 3.5V12h-1v1h-2v1h3v-.5Zm-4 .5v-1H8v1h2Zm2-5h2V8h-2v1Z"></path>
+                    </svg>
+                </button>
+            </a>
+            <a href="{% url 'add' %}">
+                <button class="btn btn-primary" type="button"
+                        style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                         viewBox="0 0 16 16"
+                         class="bi bi-plus" style="width: 32px;height: 32px;">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                    </svg>
+                </button>
+            </a>
+            {% block flashlight %}{% endblock %}
+        </div>
+    </div>
+</footer>
+</body>
+</html>

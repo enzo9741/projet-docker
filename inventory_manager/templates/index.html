@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/shadow.css' %}">
+    <script src="{% static 'js/qrcode.js' %}" type="text/javascript" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <div class="min-vh-100">
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-auto" style="background-color: white" id="printable">
+                        <div id="qrcode"></div>
+                        <div class="text-center" id="qrcodeText" style="color: black; margin-top: 16px;"><h6>Test</h6></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="printQrcode();">Print Qrcode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 40px;">
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-1">ALL</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-2">CPU</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-3">RAM</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-4">HDD</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-5">SSD</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-6">AMOVIBLE</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab"
+                                                                href="#tab-7">CABLE</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" role="tabpanel" id="tab-1">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Reference</th>
+                                    <th>Serial Number</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in objects %}
+                                    <tr>
+                                        <td>{{ obj.brand }}</td>
+                                        <td>{{ obj.reference }}</td>
+                                        <td>{{ obj.serial_number }}</td>
+                                        <td style="width: 128px;">{% if obj.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.brand }}','{{ obj.reference }}','{{ obj.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-2">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Reference</th>
+                                    <th>Core/Threads</th>
+                                    <th>Frequency</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in cpu %}
+                                    <tr>
+                                        <td>{{ obj.uuid.brand }}</td>
+                                        <td>{{ obj.uuid.reference }}</td>
+                                        <td>{{ obj.core }}/{{ obj.threads }}</td>
+                                        <td>{{ obj.frequency }}</td>
+                                        <td style="width: 128px;">{% if obj.uuid.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.uuid.brand }}','{{ obj.uuid.reference }}','{{ obj.uuid.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-3">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Reference</th>
+                                    <th>Capacity/Type</th>
+                                    <th>Frequency</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in ram %}
+                                    <tr>
+                                        <td>{{ obj.uuid.brand }}</td>
+                                        <td>{{ obj.uuid.reference }}</td>
+                                        <td>{{ obj.capacity }}/{{ obj.type }}</td>
+                                        <td>{{ obj.frequency }}</td>
+                                        <td style="width: 128px;">{% if obj.uuid.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.uuid.brand }}','{{ obj.uuid.reference }}','{{ obj.uuid.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-4">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Reference/Size</th>
+                                    <th>Capacity</th>
+                                    <th>Smart</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in hdd %}
+                                    <tr>
+                                        <td>{{ obj.uuid.uuid.brand }}</td>
+                                        <td>{{ obj.uuid.uuid.reference }}/{{ obj.size }}</td>
+                                        <td>{{ obj.uuid.capacity }}</td>
+                                        <td>Smart Info</td>
+                                        <td style="width: 128px;">{% if obj.uuid.uuid.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.uuid.uuid.brand }}','{{ obj.uuid.uuid.reference }}','{{ obj.uuid.uuid.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-5">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Reference</th>
+                                    <th>Capacity</th>
+                                    <th>Smart</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in ssd %}
+                                    <tr>
+                                        <td>{{ obj.uuid.uuid.brand }}</td>
+                                        <td>{{ obj.uuid.uuid.reference }}</td>
+                                        <td>{{ obj.uuid.capacity }}</td>
+                                        <td>Smart Info</td>
+                                        <td style="width: 128px;">{% if obj.uuid.uuid.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.uuid.uuid.brand }}','{{ obj.uuid.uuid.reference }}','{{ obj.uuid.uuid.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-6">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Reference</th>
+                                    <th>Capacity</th>
+                                    <th>Tech</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in amovible %}
+                                    <tr>
+                                        <td>{{ obj.uuid.brand }}</td>
+                                        <td>{{ obj.uuid.reference }}</td>
+                                        <td>{{ obj.capacity }}</td>
+                                        <td>{{ obj.tech }}</td>
+                                        <td style="width: 128px;">{% if obj.uuid.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.uuid.brand }}','{{ obj.uuid.reference }}','{{ obj.uuid.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="tab-7">
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Length</th>
+                                    <th>Start Type</th>
+                                    <th>End Type</th>
+                                    <th>Available</th>
+                                    <th>QR Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in cable %}
+                                    <tr>
+                                        <td>{{ obj.length }}</td>
+                                        <td>{{ obj.start_type }}</td>
+                                        <td>{{ obj.end_type }}</td>
+                                        <td style="width: 128px;">{% if obj.uuid.available is 1 %}True{% else %}
+                                            False {% endif %}</td>
+                                        <td style="width: 128px;">
+                                            <button class="btn btn-primary" type="button"
+                                                    style="margin-right: 8px;border-radius: 50%;width: 64px;height: 64px;"
+                                                    data-toggle="modal" data-target="#myModal" data="test" id="modalBtn" onclick="showModal('{{ obj.uuid }}', '{{ obj.uuid.brand }}','{{ obj.uuid.reference }}','{{ obj.uuid.serial_number }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                     fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"
+                                                     style="width: 32px;height: 32px;">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5 1H1v4h4V1ZM1 11v4h4v-4H1ZM15 1h-4v4h4V1ZM5 0h1v6H0V0h5Zm0 10h1v6H0v-6h5Zm6-10h-1v6h6V0h-5ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Zm-2 4.5V12h1v3h4v1H7v-.5Zm9-1.5v2h-3v-1h2v-1h1ZM2 2h2v2H2V2Zm10 0h2v2h-2V2ZM4 12H2v2h2v-2Z"></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

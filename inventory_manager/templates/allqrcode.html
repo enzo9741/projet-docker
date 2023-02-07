@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}AllQrcode{% endblock %}
+{% block content %}
+
+    <div class="min-vh-100">
+        <button type="button" class="btn btn-primary mt-4 mb-2" style="margin: 32px;" onclick="printAllQrcode();">Print Qrcode</button>
+        <section id="display"></section>
+        <input type="hidden" id="uuid" value="{{ uuid }}">
+        <input type="hidden" id="brand" value="{{ brand }}">
+        <input type="hidden" id="reference" value="{{ reference }}">
+        <input type="hidden" id="serial" value="{{ serial_number }}">
+        <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+        <script src="{% static 'js/allqrcode.js' %}" type="text/javascript"> </script>
+        <style>
+            #display {
+                margin-left: 32px;
+                margin-right: 32px;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+        </style>
+    </div>
+{% endblock %}
