@@ -15,23 +15,21 @@ services:
       MYSQL_DATABASE: "${DATABASE_NAME}"
       MYSQL_USER: "${DATABASE_USER}"
       MYSQL_PASSWORD: "${USER_PASS}"
-    healthcheck:
-      test: "/usr/bin/mysql --user=${DATABASE_USER} --password=${USER_PASS} --execute \"SHOW DATABASES;\""
-      interval: 2s
-      timeout: 30s
-      retries: 15
 
   phpmyadmin:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - 8001:80
     environment:
       - PMA_ARBITRARY=1
 
   web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: web-Dockerfile
+    entrypoint:
+      - /code/web-entrypoint.sh
     restart: always
     volumes:
       - .:/code
@@ -45,5 +43,4 @@ services:
       - DATABASE_USER
       - USER_PASS
     depends_on:
-      db:
-        condition: service_healthy
+      - db

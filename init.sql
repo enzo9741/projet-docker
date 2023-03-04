@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS inventory_management_v2;
-USE inventory_management_v2;
+CREATE DATABASE IF NOT EXISTS docker;
+USE docker;
 
 CREATE TABLE IF NOT EXISTS objects (
     uuid VARCHAR(36),
