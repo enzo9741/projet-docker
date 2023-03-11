@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    image: mysql
+    image: mysql:8.0-debian
     restart: always
     ports:
       - "${DATABASE_PORT}:3306"
@@ -17,7 +17,7 @@ services:
       MYSQL_PASSWORD: "${USER_PASS}"
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:5.2.1-fpm-alpine
     restart: always
     ports:
       - 8001:80
